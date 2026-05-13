@@ -1,0 +1,29 @@
+services:
+  libraryit-server:
+    build: .
+    container_name: libraryit-server
+    hostname: libraryit-server
+    ports:
+      - "1445:445"
+    volumes:
+      - ./data/ebooks:/libraryit/ebooks
+      - ./data/papers:/libraryit/papers
+      - ./data/sourcecode:/libraryit/sourcecode
+      - ./data/docs:/libraryit/docs
+      - ./logs:/libraryit/logs
+    restart: unless-stopped
+
+  libraryit-logger:
+    image: alpine:3
+    container_name: libraryit-logger
+    depends_on:
+      - libraryit-server
+    volumes:
+      - ./logs:/libraryit/logs:ro
+    command:
+      - sh
+      - -c
+      - |
+        until [ -f /libraryit/logs/libraryit.log ]; do sleep 1; done
+        exec tail -F /libraryit/logs/libraryit.log
+    restart: unless-stopped
