@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         samba \
         samba-vfs-modules \
-        python3 \
+        socat \
         ca-certificates \
         acl && \
     apt-get clean && \
@@ -14,9 +14,8 @@ RUN apt-get update && \
 
 COPY smb.conf      /etc/samba/smb.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY logger.py     /usr/local/bin/logger.py
 
-RUN chmod 0755 /usr/local/bin/entrypoint.sh /usr/local/bin/logger.py
+RUN chmod 0755 /usr/local/bin/entrypoint.sh
 
 EXPOSE 445
 
