@@ -10,7 +10,6 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-
 static int extract_koord(const char *filepath, char *out, size_t outlen)
 {
     FILE *fp = fopen(filepath, "r");
